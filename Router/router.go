@@ -1,6 +1,8 @@
 package Router
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 func MidjourneyApiRouter() *gin.Engine {
 	r := gin.Default()
@@ -8,5 +10,6 @@ func MidjourneyApiRouter() *gin.Engine {
 	r.POST("/mj/submit/*action", HandleSubmitRequest)
 	// 处理 TASK 请求
 	r.GET("/mj/task/*action", HandleTaskRequest)
+
 	return r
 }
