@@ -6,14 +6,11 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"go_midjourney-api/Models"
 	"go_midjourney-api/Util"
-	"os"
-	"os/signal"
-	"syscall"
 )
 
-func init() {
-	BOT_TOKEN := Util.GetEnvVariable("BOT_TOKEN")
-	discord, err := discordgo.New("Bot " + BOT_TOKEN)
+/*func init() {
+	BotToken := Util.GetEnvVariable("BOT_TOKEN")
+	discord, err := discordgo.New("Bot " + BotToken)
 	if err != nil {
 		println("Discordgo New err: " + err.Error())
 	}
@@ -21,13 +18,11 @@ func init() {
 	discord.Open()
 	defer discord.Close()
 
-	//TODO 添加消息监听
-
 	println("discord bot is online")
-	sc := make(chan os.Signal, 1)
+	/*sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<-sc
-}
+}*/
 
 func DcNewMessageHandler(session *discordgo.Session, message *discordgo.MessageCreate) {
 	//TODO Ignore bot message
