@@ -2,6 +2,7 @@ package Router
 
 import (
 	"github.com/gin-gonic/gin"
+	"go_midjourney-api/DiscordService"
 	"go_midjourney-api/Util"
 	"go_midjourney-api/handlers"
 	"io"
@@ -24,6 +25,7 @@ func HandleSubmitRequest(c *gin.Context) {
 	switch path {
 	case "/mj/submit/imagine":
 		// TODO 处理绘画请求,向Discord发送请求
+		DiscordService.Imagine(bodyBytes)
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error", "body": "错误的请求"})
 		return
 	case "/mj/submit/simple-change":
