@@ -3,6 +3,7 @@ package Router
 import (
 	"github.com/gin-gonic/gin"
 	"go_midjourney-api/Util"
+	"go_midjourney-api/handlers"
 	"io"
 	"net/http"
 	"strings"
@@ -62,13 +63,15 @@ func HandleTaskRequest(c *gin.Context) {
 	path := c.Request.URL.Path
 	// 根据不同的路径进行不同的处理
 	switch path {
-	case "/mj/task/submit":
-		// TODO 处理提交任务请求,向Discord发送请求
+	case "/mj/task/list-by-condition":
+		// TODO 处理根据条件获取任务列表请求
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error", "body": "错误的请求"})
 		return
-	case "/mj/task/status":
-		// TODO 处理任务状态请求,向Discord发送请求
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error", "body": "错误的请求"})
+	case "/mj/task/queue":
+		handlers.GetActiveTask(c)
+		return
+	case "/mj/task/list":
+		handlers.GetAllTask(c)
 		return
 	default:
 		// 处理其他路径的逻辑
@@ -77,8 +80,8 @@ func HandleTaskRequest(c *gin.Context) {
 			// 提取动态路径参数 {id}
 			id := strings.TrimPrefix(path, "/mj/task/")
 			id = strings.TrimSuffix(id, "/fetch")
-			// 处理动态路径参数的逻辑
-			c.JSON(http.StatusOK, gin.H{"id": id})
+
+			handlers.GetTaskByID(c, id)
 			return
 		} else {
 			c.JSON(404, gin.H{"error": "Not Found"})
