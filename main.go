@@ -16,8 +16,10 @@ func main() {
 	}
 
 	// 初始化任务队列
-	//Task.TaskControllerInstance.AddTask(Models.TaskModels{ID: "1", Description: "测试任务", State: "running", Status: "running", Progress: "0", Prompt: "测试任务", PromptEn: "Test Task", Properties: map[string]interface{}{"test": "test"}})
-
+	/*Task.TaskControllerInstance.AddTask(Models.TaskModels{ID: "1", Description: "测试任务1", State: "running", Status: "running", Progress: "0", Prompt: "测试任务", PromptEn: "Test Task", Properties: map[string]interface{}{"test": "test"}})
+	Task.TaskControllerInstance.AddTask(Models.TaskModels{ID: "2", Description: "测试任务2", State: "running", Status: "running", Progress: "0", Prompt: "测试任务", PromptEn: "Test Task", Properties: map[string]interface{}{"test": "test"}})
+	Task.TaskControllerInstance.AddTask(Models.TaskModels{ID: "3", Description: "测试任务3", State: "running", Status: "running", Progress: "0", Prompt: "测试任务", PromptEn: "Test Task", Properties: map[string]interface{}{"test": "test"}})
+	*/
 	r := Router.MidjourneyApiRouter()
 
 	err = r.Run(":8080")

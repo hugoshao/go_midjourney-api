@@ -1,6 +1,6 @@
 package Models
 
-// Task 结构体表示任务的信息
+// TaskModels 结构体表示任务的信息
 type TaskModels struct {
 	ID          string                 `json:"id"`
 	Action      string                 `json:"action"`
