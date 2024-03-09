@@ -18,6 +18,18 @@ func GetAllTask(c *gin.Context) {
 	c.JSON(http.StatusOK, tasks)
 }
 
+// GetNextTask 获取下一个任务的处理函数
+func GetNextTask(c *gin.Context) {
+	// 获取所有任务
+	tasks := Task.TaskControllerInstance.GetActiveTaskByIndex()
+	if tasks == nil {
+		c.JSON(http.StatusOK, gin.H{"message": "No tasks"})
+		return
+	}
+	// 返回所有任务
+	c.JSON(http.StatusOK, tasks)
+}
+
 // GetActiveTask 获取进行中的任务的处理函数
 func GetActiveTask(c *gin.Context) {
 	// 获取所有任务

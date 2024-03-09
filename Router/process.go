@@ -70,6 +70,9 @@ func HandleTaskRequest(c *gin.Context) {
 	case "/mj/task/queue":
 		handlers.GetActiveTask(c)
 		return
+	case "/mj/task/queue/next":
+		handlers.GetNextTask(c)
+		return
 	case "/mj/task/list":
 		handlers.GetAllTask(c)
 		return

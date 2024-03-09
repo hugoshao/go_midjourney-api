@@ -47,10 +47,14 @@ func (tc *Controller) ClearActiveTaskByID(id string) {
 	tc.ActiveTasks = updatedActiveTasks
 }
 
-// GetActiveTaskByIndex 根据索引值获取进行中任务
-func (tc *Controller) GetActiveTaskByIndex(index int) *Models.TaskModels {
-	if index <= 0 || index > len(tc.ActiveTasks) {
+// GetActiveTaskByIndex 根据索引值获取进行中任务，默认获取第一个任务
+func (tc *Controller) GetActiveTaskByIndex(index ...int) *Models.TaskModels {
+	idx := 1
+	if len(index) > 0 {
+		idx = index[0]
+	}
+	if idx <= 0 || idx > len(tc.ActiveTasks) {
 		return nil
 	}
-	return &tc.ActiveTasks[index-1]
+	return &tc.ActiveTasks[idx-1]
 }
