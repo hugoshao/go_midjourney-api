@@ -24,11 +24,11 @@ func HandleSubmitRequest(c *gin.Context) {
 	// 根据不同的路径进行不同的处理
 	switch path {
 	case "/mj/submit/imagine":
-		// TODO 处理绘画请求,向Discord发送请求
 		DiscordService.Imagine(c, bodyString)
 		return
 	case "/mj/submit/simple-change":
 		// TODO 处理绘画变换任务请求,向Discord发送请求
+		DiscordService.Simple(c, bodyString)
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error", "body": "错误的请求"})
 		return
 	case "/mj/submit/describe":

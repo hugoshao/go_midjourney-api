@@ -6,6 +6,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"go_midjourney-api/DiscordService"
 	"go_midjourney-api/Router"
+	"go_midjourney-api/Task"
 	"go_midjourney-api/Util"
 	"log"
 	"os"
@@ -49,12 +50,15 @@ func main() {
 	// 加载环境变量
 	err := Util.LoadEnv()
 	if err != nil {
-		fmt.Println("Error loading environment variables")
+		fmt.Println("加载环境变量时出错")
 		return
 	}
 
 	// 初始化DiscordGo
 	go initDiscordGo()
+
+	// 初始化Redis处理器
+	Task.GetInstance(Util.GetEnvVariable("REDIS_HOST"), Util.GetEnvVariable("REDIS_PASSWORD"))
 
 	r := Router.MidjourneyApiRouter()
 

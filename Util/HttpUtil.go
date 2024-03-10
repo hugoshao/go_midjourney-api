@@ -97,10 +97,6 @@ func HttpToDiscord(body []byte) bool {
 	SendLog(bodyString)
 
 	defer resp.Body.Close()
-	if resp.StatusCode == 200 {
-		return true
-	} else {
-		return false
-	}
+	return true
 
 }
