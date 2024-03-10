@@ -1,7 +1,6 @@
 package Task
 
-import "go_midjourney-api/Models"
-
+/*
 // Controller 结构体包含任务队列和相关方法
 type Controller struct {
 	AllTasks    map[string]Models.TaskModels
@@ -71,3 +70,30 @@ func (tc *Controller) GetActiveTaskByIndex(index ...int) *Models.TaskModels {
 
 	return nil
 }
+
+// UpdateTaskFieldByID 根据任务 ID 更新任务的指定字段值
+func (tc *Controller) UpdateTaskFieldByID(id string, field string, value interface{}) error {
+	task, ok := tc.AllTasks[id]
+	if !ok {
+		return fmt.Errorf("Task with ID %s not found", id)
+	}
+	taskValue := reflect.ValueOf(&task).Elem()
+	fieldValue := taskValue.FieldByName(field)
+	if !fieldValue.IsValid() {
+		return fmt.Errorf("Field %s does not exist in Task struct", field)
+	}
+	// 设置字段值
+	if !fieldValue.CanSet() {
+		return fmt.Errorf("Cannot set value for field %s", field)
+	}
+	fieldReflectValue := reflect.ValueOf(value)
+	if fieldValue.Type() != fieldReflectValue.Type() {
+		return fmt.Errorf("Value type does not match field type")
+	}
+	fieldValue.Set(fieldReflectValue)
+	// 更新任务信息
+	tc.AllTasks[id] = task
+	tc.ActiveTasks[id] = task
+	return nil
+}
+*/

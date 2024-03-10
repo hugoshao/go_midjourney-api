@@ -81,3 +81,8 @@ func Imagine(c *gin.Context, bodyString string) {
 	}
 
 }
+
+// ImagineFromQueue 从队列中获取任务并向Discord发送请求
+func ImagineFromQueue() {
+	// TODO 处理来自队列的任务请求
+}
