@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
+	"go_midjourney-api/Models"
 	"go_midjourney-api/Task"
 	"net/http"
 )
@@ -57,4 +58,9 @@ func GetTaskByID(c *gin.Context, id string) {
 // ClearActiveTaskByID 从队列中清除进行中的任务
 func ClearActiveTaskByID(id string) {
 	Task.TaskControllerInstance.ClearActiveTaskByID(id)
+}
+
+func AddTask(task Models.TaskModels) {
+	// 获取所有任务
+	Task.TaskControllerInstance.AddTask(task)
 }

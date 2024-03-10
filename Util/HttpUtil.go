@@ -77,3 +77,30 @@ func HTTPPost(urlStr string, body []byte, proxyURL *url.URL, userToken string) (
 
 	return respBody, nil
 }
+
+func HttpToDiscord(body []byte) bool {
+	url := "https://discord.com/api/v9/interactions"
+	req, err := http.NewRequest("POST", url, bytes.NewReader(body))
+	if err != nil {
+		return false
+	}
+	UserToken := GetEnvVariable("USER_TOKEN")
+	req.Header.Set("Authorization", UserToken)
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return false
+	}
+
+	bodyBytes, _ := io.ReadAll(resp.Body)
+	bodyString := string(bodyBytes)
+	SendLog(bodyString)
+
+	defer resp.Body.Close()
+	if resp.StatusCode == 200 {
+		return true
+	} else {
+		return false
+	}
+
+}

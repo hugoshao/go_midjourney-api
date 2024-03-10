@@ -25,8 +25,7 @@ func HandleSubmitRequest(c *gin.Context) {
 	switch path {
 	case "/mj/submit/imagine":
 		// TODO 处理绘画请求,向Discord发送请求
-		DiscordService.Imagine(bodyBytes)
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error", "body": "错误的请求"})
+		DiscordService.Imagine(c, bodyString)
 		return
 	case "/mj/submit/simple-change":
 		// TODO 处理绘画变换任务请求,向Discord发送请求

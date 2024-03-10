@@ -2,59 +2,82 @@ package DiscordService
 
 import (
 	"encoding/json"
-	"fmt"
-	"github.com/bwmarrin/discordgo"
+	"github.com/gin-gonic/gin"
 	"go_midjourney-api/Models"
 	"go_midjourney-api/Util"
+	"net/http"
 )
 
-/*func init() {
-	BotToken := Util.GetEnvVariable("BOT_TOKEN")
-	discord, err := discordgo.New("Bot " + BotToken)
+func Imagine(c *gin.Context, bodyString string) {
+	// 创建一个结构体实例，用于存储解析后的数据
+	var requestBody Models.ImagineRequest
+
+	// 解析 JSON 字符串到结构体
+	err := json.Unmarshal([]byte(bodyString), &requestBody)
 	if err != nil {
-		println("Discordgo New err: " + err.Error())
+		c.JSON(http.StatusOK, gin.H{"message": "请求体错误", "body": err})
+		return
 	}
+	// 访问解析后的数据
+	//fmt.Println("Prompt:", requestBody.Prompt)
+	if requestBody.Base64 != nil {
+		c.JSON(http.StatusOK, gin.H{"message": "Error", "body": "暂不支持BASE64字段的请求"})
+		return
+	}
+	ApplicationID := Util.GetEnvVariable("APPLICATION_ID")
+	GuildID := Util.GetEnvVariable("GUILD_ID")
+	ChannelID := Util.GetEnvVariable("CHANNEL_ID")
+	SessionID := Util.GetEnvVariable("SESSION_ID")
 
-	discord.Open()
-	defer discord.Close()
-
-	println("discord bot is online")
-	/*sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
-	<-sc
-}*/
-
-func DcNewMessageHandler(session *discordgo.Session, message *discordgo.MessageCreate) {
-	//TODO Ignore bot message
-	if message.Author.ID == session.State.User.ID {
+	interactionsReq := &Models.InteractionsRequest{
+		Type:          2,
+		ApplicationID: ApplicationID,
+		GuildID:       GuildID,
+		ChannelID:     ChannelID,
+		SessionID:     SessionID,
+		Data: map[string]any{
+			"version": "1166847114203123795",
+			"id":      "938956540159881230",
+			"name":    "imagine",
+			"type":    "1",
+			"options": []map[string]any{
+				{
+					"type":  3,
+					"name":  "prompt",
+					"value": requestBody.Prompt,
+				},
+			},
+			"application_command": map[string]any{
+				"id":                         "938956540159881230",
+				"application_id":             ApplicationID,
+				"version":                    "1166847114203123795",
+				"default_permission":         true,
+				"default_member_permissions": nil,
+				"type":                       1,
+				"nsfw":                       false,
+				"name":                       "imagine",
+				"description":                "Create images with Midjourney",
+				"dm_permission":              true,
+				"options": []map[string]any{
+					{
+						"type":           3,
+						"name":           "prompt",
+						"description":    "The prompt to imagine",
+						"required":       true,
+						"name_localized": "prompt",
+					},
+				},
+				"attachments": []any{},
+			},
+		},
+	}
+	b, _ := json.Marshal(interactionsReq)
+	if Util.HttpToDiscord(b) {
+		c.JSON(http.StatusOK, gin.H{"message": "Success", "body": "请求成功"})
+		return
+	} else {
+		c.JSON(http.StatusOK, gin.H{"message": "Error", "body": "错误的请求"})
 		return
 	}
 
-	//TODO 监听新消息进行处理
-	println(message.Content)
-}
-
-func DcUpdateMessageHandler(session *discordgo.Session, message *discordgo.MessageUpdate) {
-	//TODO 监听消息更新进行处理
-	println(message.Content)
-}
-
-func Imagine(body []byte) {
-	discordAPIURL := "http://discord.com"
-	var req Models.ImagineRequest
-	json.Unmarshal(body, req)
-
-	//敏感词处理
-
-	data, err := json.Marshal(req)
-	if err != nil {
-		fmt.Println("序列化出错,错误原因: ", err)
-		return
-	}
-	res, err := Util.HTTPPost(discordAPIURL, data, nil, Util.GetEnvVariable("USER_TOKEN"))
-	if err != nil {
-		fmt.Println("POST 错误：", err)
-		return
-	}
-	fmt.Printf("POST响应", res)
 }

@@ -1,6 +1,6 @@
 package Models
 
-// InteractionsRequest 【请求】互动按钮结构体
+// InteractionsRequest 向Discord请求的结构体
 type InteractionsRequest struct {
 	Type          int            `json:"type"`
 	ApplicationID string         `json:"application_id"`
