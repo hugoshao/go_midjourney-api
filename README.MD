@@ -1,4 +1,4 @@
-Golang Midjourney Api [![License](https://img.shields.io/static/v1?label=license&message=GPL3.0&color=green)](https://github.com/hugoshao/go_midjourney-api/blob/main/LICENSE)
+Golang Midjourney API [![License](https://img.shields.io/static/v1?label=license&message=GPL3.0&color=green)](https://github.com/hugoshao/go_midjourney-api/blob/main/LICENSE)
 ---
 使用 Golang 实现代理Discord频道，Midjourney API调用。
 
